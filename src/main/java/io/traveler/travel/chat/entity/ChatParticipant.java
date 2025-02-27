@@ -21,6 +21,8 @@ public class ChatParticipant {
     @Column(name = "user_id")
     private Long userId;
 
+    // insertable을 false로 해서 db의 DEFAULT CURRENT_TIMESTAMP를 쓸지 createAt = LocalDateTime.now()를 쓸지(혹은 앞의 두 방법 모두를 사용하여 테스트 가능하게 만들지)
+    // @prepersist를 쓸지 고민했었는데 현재는 이렇게
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -31,7 +33,7 @@ public class ChatParticipant {
     }
 
     @PrePersist
-    public void prePersist() {
+    private void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
 }

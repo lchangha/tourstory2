@@ -53,7 +53,7 @@ public class PlanLocation {
     }
 
     @PrePersist
-    public void prePersist() {
+    private void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
 }

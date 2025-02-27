@@ -40,7 +40,7 @@ public class Invitation {
     }
 
     @PrePersist
-    public void prePersist() {
+    private void onCreate() {
         this.invitationDate = LocalDateTime.now();
         if (this.status == null) {
             this.status = "invited";

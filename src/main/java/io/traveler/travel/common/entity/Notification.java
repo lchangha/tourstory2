@@ -52,7 +52,7 @@ public class Notification {
     }
 
     @PrePersist
-    public void prePersist() {
+    private void onCreate() {
         this.createdAt = LocalDateTime.now();
         if (this.unRead == null) {
             this.unRead = true;

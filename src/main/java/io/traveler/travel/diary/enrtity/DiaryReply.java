@@ -44,12 +44,12 @@ public class DiaryReply {
     }
 
     @PrePersist
-    public void prePersist() {
+    private void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    public void preUpdate() {
+    private void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 }

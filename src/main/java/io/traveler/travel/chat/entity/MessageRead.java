@@ -33,7 +33,7 @@ public class MessageRead {
     }
 
     @PrePersist
-    public void prePersist() {
+    private void onCreate() {
         this.readAt = LocalDateTime.now();
     }
 }

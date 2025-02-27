@@ -57,7 +57,7 @@ public class User {
     }
 
     @PrePersist
-    public void prePersist() {
+    private void onCreate() {
         this.createdAt = LocalDateTime.now();
         if (this.profileUrl == null) {
             this.profileUrl = "/profile.jpg";
