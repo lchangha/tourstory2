@@ -1,4 +1,4 @@
-package io.traveler.travel.common.entity;
+package io.traveler.travel.user.entity;
 
 import jakarta.persistence.*;
 
