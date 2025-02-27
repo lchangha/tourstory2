@@ -220,7 +220,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
     id          INT PRIMARY KEY AUTO_INCREMENT,
-    name        VARCHAR(100),
+    name        VARCHAR(50),
     nickname    VARCHAR(50),
     email       VARCHAR(100),
     password    VARCHAR(255),
