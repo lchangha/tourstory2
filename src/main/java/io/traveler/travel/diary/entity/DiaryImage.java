@@ -1,7 +1,6 @@
-package io.traveler.travel.diary.enrtity;
+package io.traveler.travel.diary.entity;
 
 import jakarta.persistence.*;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
@@ -11,6 +10,7 @@ import lombok.Builder;
 @Getter
 @NoArgsConstructor
 public class DiaryImage {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
