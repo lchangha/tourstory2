@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,14 +20,13 @@ public class Diary extends TimeTrackedEntity {
     @JoinColumn(name = "user_id")
     private User poster;
 
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "diary_id")
+    private List<DiaryImage> diaryImages = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "diary_id")
-    private List<DiaryImage> diaryImages ;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "diary_id")
-    private List<DiaryComment> diaryComments ;
+    private List<DiaryComment> diaryComments = new ArrayList<>();
 
     @Column(name = "trips_id")
     private Long tripsId;
