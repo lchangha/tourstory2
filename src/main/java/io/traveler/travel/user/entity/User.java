@@ -63,4 +63,8 @@ public class User {
             this.profileUrl = "/profile.jpg";
         }
     }
+
+    public void updateProFileUrl(String profileUrl) {
+        this.profileUrl = profileUrl;
+    }
 }

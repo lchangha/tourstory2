@@ -2,6 +2,7 @@ package io.traveler.travel.user.controller;
 
 
 import io.traveler.travel.user.dto.AuthenticatedUserDTO;
+import io.traveler.travel.user.dto.input.UpdateUserInput;
 import io.traveler.travel.user.dto.request.CreateUserRequest;
 import io.traveler.travel.user.dto.request.LoginRequest;
 import io.traveler.travel.user.dto.request.UpdateUserRequest;
@@ -11,6 +12,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("api/user")
@@ -23,22 +27,29 @@ public class UserController {
 
     @PostMapping
     public void createUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
-
+        userService.registerUser(createUserRequest);
     }
 
     @GetMapping("{id}")
-    public UserResponse getUser(@PathVariable int id) {
-
+    public UserResponse getUser(@PathVariable long id) {
+        return userService.findUserById(id);
     }
 
     @PutMapping("{id}")
-    public void updateUser(@PathVariable int id, @RequestBody @Valid UpdateUserRequest updateUserRequest) {
+    public void updateUser(@PathVariable long id, @ModelAttribute @Valid UpdateUserRequest updateUserRequest) {
+        MultipartFile profileImage = updateUserRequest.profileImage();
+        byte[] imagebytes = transferImage(profileImage);
 
+        UpdateUserInput input = UpdateUserInput.from(updateUserRequest)
+                .withId(id)
+                .withProfileImage(imagebytes);
+
+        userService.modifyUserProfile(input);
     }
 
     @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable int id) {
-
+    public void deleteUser(@PathVariable long id) {
+        userService.removeUser(id);
     }
 
     @PostMapping("login")
@@ -52,5 +63,13 @@ public class UserController {
     public void logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.invalidate();
+    }
+
+    private byte[] transferImage(MultipartFile file) {
+        try {
+            return file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
