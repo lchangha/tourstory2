@@ -7,13 +7,20 @@ import java.io.IOException;
 
 
 @Service
-@AllArgsConstructor
-public class ImageUploadManager {
+public class LocalImageUploader implements ImageUploader{
 
     private final FolderNameGenerator folderNameGenerator;
     private final FileNameGenerator imageFileNameGenerator;
     private final StorageHandler storageHandler;
     private final ImageValidator imageValidator;
+
+    public LocalImageUploader(FolderNameGenerator folderNameGenerator, FileNameGenerator imageFileNameGenerator,
+            StorageHandler storageHandler, ImageValidator imageValidator) {
+        this.folderNameGenerator = folderNameGenerator;
+        this.imageFileNameGenerator = imageFileNameGenerator;
+        this.storageHandler = storageHandler;
+        this.imageValidator = imageValidator;
+    }
 
     public String handleUpload(byte[] data) {
         try {
