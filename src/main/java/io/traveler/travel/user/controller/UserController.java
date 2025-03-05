@@ -38,7 +38,7 @@ public class UserController {
     @PutMapping("{id}")
     public void updateUser(@PathVariable long id, @ModelAttribute @Valid UpdateUserRequest updateUserRequest) {
         MultipartFile profileImage = updateUserRequest.profileImage();
-        byte[] imagebytes = transferImage(profileImage);
+        byte[] imagebytes = transferImageToBytes(profileImage);
 
         UpdateUserInput input = UpdateUserInput.from(updateUserRequest)
                 .withId(id)
@@ -65,7 +65,7 @@ public class UserController {
         session.invalidate();
     }
 
-    private byte[] transferImage(MultipartFile file) {
+    private byte[] transferImageToBytes(MultipartFile file) {
         try {
             return file.getBytes();
         } catch (IOException e) {
