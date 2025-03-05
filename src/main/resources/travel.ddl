@@ -45,9 +45,10 @@ CREATE TABLE diary_reply
     diary_comment_id INT      NOT NULL,
     user_id          INT      NOT NULL,
     content          TEXT     NULL,
-    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at       DATETIME   DEFAULT CURRENT_TIMESTAMP,
     updated_at       DATETIME NULL,
-    deleted_at       DATETIME NULL
+    deleted_at       DATETIME NULL,
+    is_deleted       TINYINT(1) DEFAULT 1
 );
 
 CREATE INDEX idx_diary_reply_id ON diary_reply (diary_comment_id);
@@ -60,9 +61,10 @@ CREATE TABLE diary_comment
     diary_id   INT      NOT NULL,
     user_id    INT      NOT NULL,
     content    TEXT     NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at DATETIME   DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NULL,
-    deleted_at DATETIME NULL
+    deleted_at DATETIME NULL,
+    is_deleted TINYINT(1) DEFAULT 1
 );
 
 CREATE INDEX idx_diary_comment_id ON diary_comment (diary_id);
@@ -77,9 +79,10 @@ CREATE TABLE diaries
     title         VARCHAR(100) NULL,
     content       TEXT         NULL,
     thumbnail_url VARCHAR(255) NULL,
-    created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at    DATETIME   DEFAULT CURRENT_TIMESTAMP,
     updated_at    DATETIME     NULL,
-    deleted_at    DATETIME     NULL
+    deleted_at    DATETIME     NULL,
+    is_deleted    TINYINT(1) DEFAULT 1
 );
 
 CREATE INDEX idx_diary_user ON diaries (user_id);
@@ -229,5 +232,8 @@ CREATE TABLE users
     profile_url VARCHAR(255) DEFAULT '/profile.jpg',
     phone       VARCHAR(20),
     created_at  DATETIME     DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (email)
+    updated_at  DATETIME NULL,
+    deleted_at  DATETIME NULL,
+    is_deleted  TINYINT(1)   DEFAULT 1,
+    UNIQUE (email, nickname)
 );
