@@ -4,7 +4,7 @@ import io.traveler.travel.user.dto.AuthenticatedUserDTO;
 import io.traveler.travel.user.dto.input.UpdateUserInput;
 import io.traveler.travel.user.dto.request.CreateUserRequest;
 import io.traveler.travel.user.dto.request.LoginRequest;
-import io.traveler.travel.user.dto.response.UserResponse;
+import io.traveler.travel.user.dto.response.PublicUserResponse;
 import io.traveler.travel.user.entity.User;
 import io.traveler.travel.user.repository.UserRepository;
 import io.traveler.travel.user.service.UserService;
@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse findUserById(long id) {
-        User user = userRepository.findById(id)
+    public PublicUserResponse findUserByNickname(String nickname) {
+        User user = userRepository.findBynickname(nickname)
                 .orElseThrow();
 
         return null;
@@ -55,13 +55,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void modifyUserProfile(UpdateUserInput input) {
-        User user = userRepository.findById(input.id()).orElseThrow();
+        User user = userRepository.findById(input.id())
+        .orElseThrow();
 
     }
 
     @Override
     public void removeUser(long id) {
 
+    }
+
+    @Override
+    public PrivateUserResponse findUserById(long id) {
+        throw new UnsupportedOperationException("Unimplemented method 'findUserById'");
     }
 
 }

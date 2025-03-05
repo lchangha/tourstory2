@@ -6,7 +6,7 @@ import io.traveler.travel.user.dto.input.UpdateUserInput;
 import io.traveler.travel.user.dto.request.CreateUserRequest;
 import io.traveler.travel.user.dto.request.LoginRequest;
 import io.traveler.travel.user.dto.request.UpdateUserRequest;
-import io.traveler.travel.user.dto.response.UserResponse;
+import io.traveler.travel.user.dto.response.PublicUserResponse;
 import io.traveler.travel.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("api/user")
@@ -31,9 +33,15 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public UserResponse getUser(@PathVariable long id) {
+    public PublicUserResponse getUser(@PathVariable long id) {
         return userService.findUserById(id);
     }
+
+    @GetMapping("public/{nickname}")
+    public PublicUserResponse getUserInfo(@PathVariable String nickname) {
+        return userService.findUserByNickname(nickname);
+    }
+    
 
     @PutMapping("{id}")
     public void updateUser(@PathVariable long id, @ModelAttribute @Valid UpdateUserRequest updateUserRequest) {
