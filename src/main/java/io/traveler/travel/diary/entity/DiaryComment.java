@@ -16,9 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 public class DiaryComment extends TimeTrackedEntity {
 
-    @Column(name = "diary_id")
-    private Long diaryId;
-
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User poster;
@@ -31,8 +28,7 @@ public class DiaryComment extends TimeTrackedEntity {
     private String content;
 
     @Builder
-    public DiaryComment(Long diaryId, User poster, String content) {
-        this.diaryId = diaryId;
+    public DiaryComment(User poster, String content) {
         this.poster = poster;
         this.content = content;
     }

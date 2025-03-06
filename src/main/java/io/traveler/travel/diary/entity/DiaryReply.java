@@ -13,9 +13,6 @@ import lombok.Builder;
 @NoArgsConstructor
 public class DiaryReply extends TimeTrackedEntity {
 
-    @Column(name = "diary_comment_id")
-    private Long diaryCommentId;
-
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User poster;
@@ -24,8 +21,7 @@ public class DiaryReply extends TimeTrackedEntity {
     private String content;
 
     @Builder
-    public DiaryReply(Long diaryCommentId, User poster, String content) {
-        this.diaryCommentId = diaryCommentId;
+    public DiaryReply(User poster, String content) {
         this.poster = poster;
         this.content = content;
     }

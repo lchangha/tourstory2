@@ -15,15 +15,11 @@ public class DiaryImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "diary_id")
-    private Long diaryId;
-
     @Column(name = "url")
     private String url;
 
     @Builder
-    public DiaryImage(Long diaryId, String url) {
-        this.diaryId = diaryId;
+    public DiaryImage(String url) {
         this.url = url;
     }
 }
