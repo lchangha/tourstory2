@@ -1,11 +1,13 @@
 package io.traveler.travel.user.controller;
 
 
+import io.traveler.travel.common.utils.FileUtil;
 import io.traveler.travel.user.dto.AuthenticatedUserDTO;
 import io.traveler.travel.user.dto.input.UpdateUserInput;
 import io.traveler.travel.user.dto.request.CreateUserRequest;
 import io.traveler.travel.user.dto.request.LoginRequest;
 import io.traveler.travel.user.dto.request.UpdateUserRequest;
+import io.traveler.travel.user.dto.response.PrivateUserResponse;
 import io.traveler.travel.user.dto.response.PublicUserResponse;
 import io.traveler.travel.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,9 +24,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("api/user")
 public class UserController {
     private final UserService userService;
+    private final HttpSession httpSession;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, HttpSession httpSession) {
         this.userService = userService;
+        this.httpSession = httpSession;
     }
 
     @PostMapping
@@ -32,8 +36,14 @@ public class UserController {
         userService.registerUser(createUserRequest);
     }
 
+    @GetMapping("me")
+    public PrivateUserResponse getMe() {
+        AuthenticatedUserDTO user = (AuthenticatedUserDTO) httpSession.getAttribute("AuthenticatedUser");
+        return userService.findUserById(user.id());
+    }
+
     @GetMapping("{id}")
-    public PublicUserResponse getUser(@PathVariable long id) {
+    public PrivateUserResponse getUser(@PathVariable long id) {
         return userService.findUserById(id);
     }
 
@@ -46,11 +56,11 @@ public class UserController {
     @PutMapping("{id}")
     public void updateUser(@PathVariable long id, @ModelAttribute @Valid UpdateUserRequest updateUserRequest) {
         MultipartFile profileImage = updateUserRequest.profileImage();
-        byte[] imagebytes = transferImageToBytes(profileImage);
+        byte[] imageBytes = FileUtil.transferImageToBytes(profileImage);
 
         UpdateUserInput input = UpdateUserInput.from(updateUserRequest)
                 .withId(id)
-                .withProfileImage(imagebytes);
+                .withProfileImage(imageBytes);
 
         userService.modifyUserProfile(input);
     }
@@ -73,11 +83,4 @@ public class UserController {
         session.invalidate();
     }
 
-    private byte[] transferImageToBytes(MultipartFile file) {
-        try {
-            return file.getBytes();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

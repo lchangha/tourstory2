@@ -1,5 +1,6 @@
 package io.traveler.travel.user.entity;
 
+import io.traveler.travel.common.entity.TimeTrackedEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -13,10 +14,7 @@ import lombok.Builder;
 @Table(name = "users")
 @Getter
 @NoArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class User extends TimeTrackedEntity {
 
     @Column(name = "name")
     private String name;
@@ -56,12 +54,41 @@ public class User {
         this.phone = phone;
     }
 
-    @PrePersist
-    private void onCreate() {
+
+    @Override
+    protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         if (this.profileUrl == null) {
             this.profileUrl = "/profile.jpg";
         }
+    }
+
+    public void updateName(String name) {
+        this.name = name;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateEmail(String email) {
+        this.email = email;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    public void updateBirth(LocalDate birth) {
+        this.birth = birth;
+    }
+
+    public void updateGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void updatePhone(String phone) {
+        this.phone = phone;
     }
 
     public void updateProFileUrl(String profileUrl) {

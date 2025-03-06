@@ -4,29 +4,32 @@ import io.traveler.travel.user.dto.AuthenticatedUserDTO;
 import io.traveler.travel.user.dto.input.UpdateUserInput;
 import io.traveler.travel.user.dto.request.CreateUserRequest;
 import io.traveler.travel.user.dto.request.LoginRequest;
+import io.traveler.travel.user.dto.response.PrivateUserResponse;
 import io.traveler.travel.user.dto.response.PublicUserResponse;
 import io.traveler.travel.user.entity.User;
 import io.traveler.travel.user.repository.UserRepository;
 import io.traveler.travel.user.service.UserService;
+import io.traveler.travel.image.ImageUploader;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final ImageUploader imageUploader;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, ImageUploader imageUploader) {
         this.userRepository = userRepository;
+        this.imageUploader = imageUploader;
     }
 
     @Override
     public AuthenticatedUserDTO authenticate(LoginRequest loginRequest) {
-        Optional<User> authenticatedUser = userRepository.findByEmailAndPassword(loginRequest.email(), loginRequest.password());
-
-        return authenticatedUser
-                .map(user -> new AuthenticatedUserDTO(user.getId(), user.getEmail()))
+        return userRepository.findByEmailAndPassword(loginRequest.email(), loginRequest.password())
+                .map(AuthenticatedUserDTO::from)
                 .orElseThrow();
+
     }
 
     @Override
@@ -42,32 +45,58 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         userRepository.save(userRequest);
-
     }
 
     @Override
     public PublicUserResponse findUserByNickname(String nickname) {
-        User user = userRepository.findBynickname(nickname)
+        return userRepository.findBynickname(nickname)
+                .map(PublicUserResponse::from)
                 .orElseThrow();
-
-        return null;
-    }
-
-    @Override
-    public void modifyUserProfile(UpdateUserInput input) {
-        User user = userRepository.findById(input.id())
-        .orElseThrow();
-
-    }
-
-    @Override
-    public void removeUser(long id) {
-
     }
 
     @Override
     public PrivateUserResponse findUserById(long id) {
-        throw new UnsupportedOperationException("Unimplemented method 'findUserById'");
+        return userRepository.findById(id)
+                .map(PrivateUserResponse::from)
+                .orElseThrow();
     }
+
+    @Override
+    @Transactional
+    public void modifyUserProfile(UpdateUserInput input) {
+        User user = userRepository.findById(input.id())
+                .orElseThrow();
+
+        if (input.email() != null) {
+            user.updateEmail(input.email());
+        }
+        if (input.name() != null) {
+            user.updateName(input.name());
+        }
+        if (input.nickname() != null) {
+            user.updateNickname(input.nickname());
+        }
+        if (input.password() != null) {
+            user.updatePassword(input.password());
+        }
+        if (input.phone() != null) {
+            user.updatePhone(input.phone());
+        }
+        if (input.birth() != null) {
+            user.updateBirth(input.birth());
+        }
+        if (input.profileImage() != null) {
+            String profileUrl = imageUploader.handleUpload(input.profileImage());
+            user.updateProFileUrl(profileUrl);
+        }
+    }
+
+    @Override
+    public void removeUser(long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow();
+        user.delete();
+    }
+
 
 }
