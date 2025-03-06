@@ -1,4 +1,4 @@
-package io.traveler.travel.util.image.local;
+package io.traveler.travel.image;
 
 public interface ImageUploader {
     String handleUpload(byte[] imageBytes); 

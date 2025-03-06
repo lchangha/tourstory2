@@ -1,6 +1,5 @@
-package io.traveler.travel.util.image.local;
+package io.traveler.travel.image;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
