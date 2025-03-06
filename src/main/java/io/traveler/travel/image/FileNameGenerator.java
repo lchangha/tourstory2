@@ -1,4 +1,4 @@
-package io.traveler.travel.util.image.local;
+package io.traveler.travel.image;
 
 import org.springframework.stereotype.Component;
 
