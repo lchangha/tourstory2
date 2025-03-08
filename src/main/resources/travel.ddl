@@ -48,7 +48,7 @@ CREATE TABLE diary_reply
     created_at       DATETIME   DEFAULT CURRENT_TIMESTAMP,
     updated_at       DATETIME NULL,
     deleted_at       DATETIME NULL,
-    is_deleted       TINYINT(1) DEFAULT 1
+    is_deleted       TINYINT(1) DEFAULT 0
 );
 
 CREATE INDEX idx_diary_reply_id ON diary_reply (diary_comment_id);
@@ -64,7 +64,7 @@ CREATE TABLE diary_comment
     created_at DATETIME   DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NULL,
     deleted_at DATETIME NULL,
-    is_deleted TINYINT(1) DEFAULT 1
+    is_deleted TINYINT(1) DEFAULT 0
 );
 
 CREATE INDEX idx_diary_comment_id ON diary_comment (diary_id);
@@ -82,7 +82,7 @@ CREATE TABLE diaries
     created_at    DATETIME   DEFAULT CURRENT_TIMESTAMP,
     updated_at    DATETIME     NULL,
     deleted_at    DATETIME     NULL,
-    is_deleted    TINYINT(1) DEFAULT 1
+    is_deleted    TINYINT(1) DEFAULT 0
 );
 
 CREATE INDEX idx_diary_user ON diaries (user_id);
@@ -213,7 +213,7 @@ CREATE TABLE notification
     `type`          VARCHAR(50),
     content         TEXT,
     url             VARCHAR(255),
-    un_read         TINYINT(1) DEFAULT 1,
+    un_read         TINYINT(1) DEFAULT 0,
     created_at      DATETIME   DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -234,6 +234,6 @@ CREATE TABLE users
     created_at  DATETIME     DEFAULT CURRENT_TIMESTAMP,
     updated_at  DATETIME NULL,
     deleted_at  DATETIME NULL,
-    is_deleted  TINYINT(1)   DEFAULT 1,
+    is_deleted  TINYINT(1)   DEFAULT 0,
     UNIQUE (email, nickname)
 );

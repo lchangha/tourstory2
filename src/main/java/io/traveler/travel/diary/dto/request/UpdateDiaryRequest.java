@@ -7,6 +7,7 @@ import java.util.List;
 public record UpdateDiaryRequest(
         String title,
         String content,
-        List<MultipartFile> images
+        List<MultipartFile> images,
+        MultipartFile thumbnail
 ) {
 }

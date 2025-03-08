@@ -104,7 +104,7 @@ public class DiaryServiceImpl implements DiaryService {
     public void removeDiary(long id) {
         Diary diary = diaryRepository.findById(id)
                 .orElseThrow();
-
+//      소프트 딜리트
         diary.delete();
     }
 }

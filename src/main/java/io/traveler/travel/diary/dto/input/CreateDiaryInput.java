@@ -24,6 +24,16 @@ public record CreateDiaryInput(
         );
     }
 
+    public static CreateDiaryInput of(CreateDiaryRequest createDiaryRequest, List<byte[]> imageBytesList, byte[] thumbnail) {
+        return new CreateDiaryInput(
+                createDiaryRequest.tripId(),
+                createDiaryRequest.title(),
+                createDiaryRequest.content(),
+                imageBytesList,
+                thumbnail
+        );
+    }
+
     public CreateDiaryInput withImages(List<byte[]> imageBytesList) {
         return new CreateDiaryInput(
                 this.tripId,
