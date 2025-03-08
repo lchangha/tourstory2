@@ -9,9 +9,11 @@ import org.springframework.data.domain.Slice;
 public interface DiaryService {
     Slice<DiaryResponse> findAll(Pageable pageable);
 
-    DiaryResponse findDiaryById(Long id);
+    DiaryResponse findDiaryById(long id);
 
     void registerDiary(CreateDiaryInput createDiaryInput);
 
     void modifyDiary(UpdateDiaryInput input);
+
+    void removeDiary(long id);
 }

@@ -56,10 +56,6 @@ public class Diary extends TimeTrackedEntity {
         diaryComments.add(comment);
     }
 
-    public void updateTrip(Trip trip) {
-        this.trip = trip;
-    }
-
     public void updateTitle(String title) {
         this.title = title;
     }
@@ -76,7 +72,4 @@ public class Diary extends TimeTrackedEntity {
         this.diaryImages = diaryImages;
     }
 
-    public void updateDiaryComments(List<DiaryComment> diaryComments) {
-        this.diaryComments = diaryComments;
-    }
 }

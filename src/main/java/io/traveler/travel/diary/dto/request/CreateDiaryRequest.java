@@ -10,6 +10,7 @@ public record CreateDiaryRequest(
         @NotNull Long tripId,
         @NotBlank String title,
         @NotBlank String content,
+        MultipartFile thumbnail,
         List<MultipartFile> images
 ) {
 }

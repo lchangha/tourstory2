@@ -33,7 +33,7 @@ public class DiaryController {
     }
 
     @GetMapping("{id}")
-    public DiaryResponse getDiary(@PathVariable Long id) {
+    public DiaryResponse getDiary(@PathVariable long id) {
         return diaryService.findDiaryById(id);
     }
 
@@ -43,14 +43,17 @@ public class DiaryController {
                 .map(FileUtil::transferImageToBytes)
                 .toList();
 
+        byte[] thumbnail = FileUtil.transferImageToBytes(createDiaryRequest.thumbnail());
+
         CreateDiaryInput input = CreateDiaryInput.from(createDiaryRequest)
-                .withImages(imageBytesList);
+                .withImages(imageBytesList)
+                .withThumbnail(thumbnail);
 
         diaryService.registerDiary(input);
     }
 
-    @PatchMapping("{id}")
-    public void updateDiary(@PathVariable Long id,
+    @PutMapping("{id}")
+    public void updateDiary(@PathVariable long id,
                             @ModelAttribute UpdateDiaryRequest updateDiaryRequest) {
         List<byte[]> imageBytesList = updateDiaryRequest.images().stream()
                 .map(FileUtil::transferImageToBytes)
@@ -62,6 +65,12 @@ public class DiaryController {
 
         diaryService.modifyDiary(input);
     }
+
+    @DeleteMapping
+    public void deleteDiary(@PathVariable long id) {
+        diaryService.removeDiary(id);
+    }
+
 
 
 }

@@ -9,19 +9,23 @@ import io.traveler.travel.diary.repository.DiaryRepository;
 import io.traveler.travel.diary.service.DiaryService;
 import io.traveler.travel.image.ImageUploader;
 import io.traveler.travel.trip.entity.Trip;
+import io.traveler.travel.trip.repository.TripRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class DiaryServiceImpl implements DiaryService {
     private final DiaryRepository diaryRepository;
+    private final TripRepository tripRepository;
     private final ImageUploader imageUploader;
 
-    public DiaryServiceImpl(DiaryRepository diaryRepository, ImageUploader imageUploader) {
+    public DiaryServiceImpl(DiaryRepository diaryRepository, TripRepository tripRepository, ImageUploader imageUploader) {
         this.diaryRepository = diaryRepository;
+        this.tripRepository = tripRepository;
         this.imageUploader = imageUploader;
     }
 
@@ -32,7 +36,7 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
-    public DiaryResponse findDiaryById(Long id) {
+    public DiaryResponse findDiaryById(long id) {
         return diaryRepository.findById(id)
                 .map(DiaryResponse::from)
                 .orElseThrow();
@@ -40,37 +44,67 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public void registerDiary(CreateDiaryInput input) {
-        List<String> imagesUrl = input.imageBytesList().stream()
-                .map(imageUploader::handleUpload)
-                .toList();
 
-        List<DiaryImage> images = imagesUrl.stream()
-//                프로젝트 내에서 엔티티 생성방법을 통일 시키고 싶으면 빌더 쓰는게 맞는거 같은데 아무리 봐도 이게 더 읽기 쉽다고 느껴짐
-//                .map(url -> DiaryImage.builder().url(url).build())
-                .map(DiaryImage::new)
-                .toList();
-
+        Trip trip = tripRepository.getReferenceById(input.tripId());
 
         Diary diary = Diary.builder()
+                .trip(trip)
                 .title(input.title())
                 .content(input.content())
-                .diaryImages(images)
                 .build();
 
+        if (!input.imageBytesList().isEmpty()) {
+            List<DiaryImage> images = input.imageBytesList().stream()
+                    .map(imageUploader::handleUpload)
+                    .map(DiaryImage::new)
+                    .toList();
+            diary.updateDiaryImages(images);
+        }
+
+        if (input.thumbnail().length != 0) {
+            String thumbnailUrl = imageUploader.handleUpload(input.thumbnail());
+            diary.updateThumbnailUrl(thumbnailUrl);
+        }
+
         diaryRepository.save(diary);
+
+
     }
 
     @Override
+    @Transactional
     public void modifyDiary(UpdateDiaryInput input) {
-        List<String> imagesUrl = input.imageBytesList().stream()
-                .map(imageUploader::handleUpload)
-                .toList();
+        Diary diary = diaryRepository.findById(input.id())
+                .orElseThrow();
 
+        if (input.title() != null) {
+            diary.updateTitle(input.title());
+        }
 
-        Diary.builder()
-                .title(input.title())
-                .content(input.content())
-                .build();
+        if (input.content() != null) {
+            diary.updateContent(input.content());
+        }
 
+        if (!input.imageBytesList().isEmpty()) {
+            List<DiaryImage> images = input.imageBytesList().stream()
+                    .map(imageUploader::handleUpload)
+                    .map(DiaryImage::new)
+                    .toList();
+            diary.updateDiaryImages(images);
+        }
+
+        if (input.thumbnail().length != 0) {
+            String thumbnailUrl = imageUploader.handleUpload(input.thumbnail());
+            diary.updateThumbnailUrl(thumbnailUrl);
+        }
+
+    }
+
+    @Override
+    public void removeDiary(long id) {
+        Diary diary = diaryRepository.findById(id)
+                .orElseThrow();
+
+        diary.delete();
     }
 }

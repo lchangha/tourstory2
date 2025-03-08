@@ -8,13 +8,15 @@ public record UpdateDiaryInput(
         Long id,
         String title,
         String content,
-        List<byte[]> imageBytesList
+        List<byte[]> imageBytesList,
+        byte[] thumbnail
 ) {
     public static UpdateDiaryInput from(UpdateDiaryRequest updateDiaryRequest) {
         return new UpdateDiaryInput(
                 null,
                 updateDiaryRequest.title(),
                 updateDiaryRequest.content(),
+                null,
                 null
         );
     }
@@ -24,7 +26,8 @@ public record UpdateDiaryInput(
                 id,
                 this.title,
                 this.content,
-                this.imageBytesList
+                this.imageBytesList,
+                this.thumbnail
         );
     }
 
@@ -33,7 +36,8 @@ public record UpdateDiaryInput(
                 this.id,
                 this.title,
                 this.content,
-                imageBytesList
+                imageBytesList,
+                this.thumbnail
         );
     }
 }
