@@ -15,11 +15,16 @@ public class DiaryImage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "diary_id")
+    private Diary diary;
+
     @Column(name = "url")
     private String url;
 
     @Builder
-    public DiaryImage(String url) {
+    public DiaryImage(Diary diary, String url) {
+        this.diary = diary;
         this.url = url;
     }
 }

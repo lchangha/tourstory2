@@ -17,6 +17,10 @@ public class DiaryReply extends TimeTrackedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User poster;
 
+    @JoinColumn(name = "diary_comment_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private DiaryComment comment;
+
     @Column(name = "content")
     private String content;
 
@@ -25,4 +29,9 @@ public class DiaryReply extends TimeTrackedEntity {
         this.poster = poster;
         this.content = content;
     }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
 }

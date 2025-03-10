@@ -1,10 +1,9 @@
 package io.traveler.travel.diary.service;
 
 import io.traveler.travel.diary.dto.input.*;
-import io.traveler.travel.diary.dto.response.CommentResponse;
+import io.traveler.travel.diary.dto.response.DiaryCommentResponse;
+import io.traveler.travel.diary.dto.response.DiaryReplyResponse;
 import io.traveler.travel.diary.dto.response.DiaryResponse;
-import io.traveler.travel.diary.dto.response.ReplyResponse;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
@@ -19,13 +18,19 @@ public interface DiaryService {
 
     void removeDiary(long id);
 
-    Slice<CommentResponse> getComments(long diaryId, PageRequest of);
+    Slice<DiaryCommentResponse> getComments(long diaryId, Pageable pageable);
 
-    Slice<ReplyResponse> getReplies(long diaryId, long commentId, PageRequest of);
+    Slice<DiaryReplyResponse> getReplies(long diaryId, long commentId, Pageable pageable);
 
     void createReply(CreateReplyInput input);
 
     void modifyComment(UpdateCommentInput input);
 
     void modifyReply(UpdateReplyInput input);
+
+    void createComment(CreateCommentInput intput);
+
+    void removeReply(long diaryId, long commentId, long replyId);
+
+    void removeComment(long diaryId, long commentId);
 }

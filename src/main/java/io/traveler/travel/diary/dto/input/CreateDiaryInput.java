@@ -12,7 +12,8 @@ public record CreateDiaryInput(
         String title,
         String content,
         List<byte[]> imageBytesList,
-        byte[] thumbnail
+        byte[] thumbnail,
+        Long poseterId
 ) {
     public static CreateDiaryInput from(CreateDiaryRequest createDiaryRequest) {
         return new CreateDiaryInput(
@@ -20,17 +21,19 @@ public record CreateDiaryInput(
                 createDiaryRequest.title(),
                 createDiaryRequest.content(),
                 null,
+                null,
                 null
         );
     }
 
-    public static CreateDiaryInput of(CreateDiaryRequest createDiaryRequest, List<byte[]> imageBytesList, byte[] thumbnail) {
+    public static CreateDiaryInput of(CreateDiaryRequest createDiaryRequest, List<byte[]> imageBytesList, byte[] thumbnail, long poseterId) {
         return new CreateDiaryInput(
                 createDiaryRequest.tripId(),
                 createDiaryRequest.title(),
                 createDiaryRequest.content(),
                 imageBytesList,
-                thumbnail
+                thumbnail,
+                poseterId
         );
     }
 
@@ -40,7 +43,8 @@ public record CreateDiaryInput(
                 this.title,
                 this.content,
                 imageBytesList,
-                this.thumbnail
+                this.thumbnail,
+        this.poseterId
         );
     }
 
@@ -50,7 +54,8 @@ public record CreateDiaryInput(
                 this.title,
                 this.content,
                 this.imageBytesList,
-                thumbnail
+                thumbnail,
+                this.poseterId
         );
     }
 }

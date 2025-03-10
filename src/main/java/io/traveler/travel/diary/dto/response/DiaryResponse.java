@@ -13,7 +13,6 @@ public record DiaryResponse(
         String thumbnailUrl,
         PublicUserResponse poster,
         List<String> imageUrls,
-        List<DiaryCommentResponse> diaryCommentResponse,
         LocalDateTime createdAt
 ) {
     public static DiaryResponse from(Diary diary) {
@@ -22,9 +21,19 @@ public record DiaryResponse(
                 diary.getContent(),
                 diary.getThumbnailUrl(),
                 PublicUserResponse.from(diary.getPoster()),
-                diary.getDiaryImages().stream().map(DiaryImage::getUrl).toList(),
-                diary.getDiaryComments().stream().map(DiaryCommentResponse::from).toList(),
+                null,
                 diary.getCreatedAt()
+        );
+    }
+
+    public DiaryResponse withImagesUrl(List<String> imagesUrl) {
+        return new DiaryResponse(
+                title,
+                content,
+                thumbnailUrl,
+                poster,
+                imagesUrl,
+                createdAt
         );
     }
 }

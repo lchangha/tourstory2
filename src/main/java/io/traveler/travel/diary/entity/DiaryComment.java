@@ -16,24 +16,26 @@ import java.util.List;
 @NoArgsConstructor
 public class DiaryComment extends TimeTrackedEntity {
 
-    @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User poster;
+    @JoinColumn(name = "diary_id")
+    private Diary diary;
 
-    @JoinColumn(name = "diary_comment_id")
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<DiaryReply> diaryReplies = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User poster;
 
     @Column(name = "content")
     private String content;
 
     @Builder
-    public DiaryComment(User poster, String content) {
+    public DiaryComment(Diary diary, User poster, String content) {
+        this.diary = diary;
         this.poster = poster;
         this.content = content;
     }
 
-    public void addDiaryReply(DiaryReply diaryReply) {
-        diaryReplies.add(diaryReply);
+    public void updateContent(String content) {
+        this.content = content;
     }
+
 }

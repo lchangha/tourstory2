@@ -3,6 +3,7 @@ package io.traveler.travel.image;
 import org.apache.tika.Tika;
 import org.springframework.stereotype.Component;
 
+
 import javax.imageio.ImageIO;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
