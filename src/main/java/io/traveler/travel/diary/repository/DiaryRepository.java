@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DiaryRepository extends CrudRepository<Diary, Long> {
-    Slice<Diary> findByIsDeletedFalse(Pageable pageable);
+    Slice<Diary> findByAll(Pageable pageable);
 }

@@ -7,11 +7,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "diaries")
 @Getter
 @NoArgsConstructor
+@Where(clause = "is_deleted = false")
 public class Diary extends TimeTrackedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)

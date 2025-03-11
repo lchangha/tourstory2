@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface DiaryReplyRepository extends JpaRepository<DiaryReply, Long> {
     Slice<DiaryReply> findByDiaryComment(DiaryComment comment, Pageable pageable);
 
-    Optional<DiaryReply> findByDiaryComment(DiaryComment comment);
+    Optional<DiaryReply> findByIdAndDiaryComment(long replyId, DiaryComment comment);
 }

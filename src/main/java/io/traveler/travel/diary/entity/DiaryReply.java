@@ -6,11 +6,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "diary_reply")
 @Getter
 @NoArgsConstructor
+@Where(clause = "is_deleted = false")
 public class DiaryReply extends TimeTrackedEntity {
 
     @JoinColumn(name = "user_id")

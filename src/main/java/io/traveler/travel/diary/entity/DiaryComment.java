@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
+import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @Table(name = "diary_comment")
 @Getter
 @NoArgsConstructor
+@Where(clause = "is_deleted = false")
 public class DiaryComment extends TimeTrackedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
