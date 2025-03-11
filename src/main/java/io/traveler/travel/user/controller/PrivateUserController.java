@@ -16,17 +16,16 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
 @RestController
-@RequestMapping("api/user")
-public class UserController {
+@RequestMapping("api/user/private")
+public class PrivateUserController {
     private final UserService userService;
     private final HttpSession httpSession;
 
-    public UserController(UserService userService, HttpSession httpSession) {
+    public PrivateUserController(UserService userService, HttpSession httpSession) {
         this.userService = userService;
         this.httpSession = httpSession;
     }
@@ -47,11 +46,6 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-    @GetMapping("public/{nickname}")
-    public PublicUserResponse getUserInfo(@PathVariable String nickname) {
-        return userService.findUserByNickname(nickname);
-    }
-    
 
     @PutMapping("{id}")
     public void updateUser(@PathVariable long id, @ModelAttribute @Valid UpdateUserRequest updateUserRequest) {

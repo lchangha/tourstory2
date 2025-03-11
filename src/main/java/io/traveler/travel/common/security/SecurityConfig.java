@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequestsCustomizer ->
                     authorizeHttpRequestsCustomizer
                             .requestMatchers("api/**/private/**").authenticated() // TODO: 나중에 hasRole 고려
+                            .requestMatchers("api/user/private/login", "api/user/private/logout").permitAll()
                             .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.disable())
