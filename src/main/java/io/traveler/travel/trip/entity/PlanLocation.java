@@ -14,12 +14,12 @@ import lombok.Builder;
 @Getter
 @NoArgsConstructor
 public class PlanLocation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "plans_id")
-    private Long plansId;
+    @JoinColumn(name = "plans_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TripPlan tripPlan;
 
     @Column(name = "place_name")
     private String placeName;
@@ -43,8 +43,8 @@ public class PlanLocation {
     private LocalDateTime createdAt;
 
     @Builder
-    public PlanLocation(Long plansId, String placeName, String addressName, String categoryName, BigDecimal y, BigDecimal x) {
-        this.plansId = plansId;
+    public PlanLocation(TripPlan tripPlan, String placeName, String addressName, String categoryName, BigDecimal y, BigDecimal x) {
+        this.tripPlan = tripPlan;
         this.placeName = placeName;
         this.addressName = addressName;
         this.categoryName = categoryName;

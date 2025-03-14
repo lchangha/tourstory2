@@ -1,5 +1,6 @@
 package io.traveler.travel.trip.entity;
 
+import io.traveler.travel.user.entity.User;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,12 +13,12 @@ import lombok.Builder;
 @Getter
 @NoArgsConstructor
 public class Trip {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User tripOwner;
 
     @Column(name = "start_date")
     private LocalDate startDate;
@@ -32,8 +33,8 @@ public class Trip {
     private LocalDateTime createdAt;
 
     @Builder
-    public Trip(Long userId, LocalDate startDate, LocalDate endDate, String tripName) {
-        this.userId = userId;
+    public Trip(User tripOwner, LocalDate startDate, LocalDate endDate, String tripName) {
+        this.tripOwner = tripOwner;
         this.startDate = startDate;
         this.endDate = endDate;
         this.tripName = tripName;

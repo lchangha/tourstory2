@@ -1,5 +1,6 @@
 package io.traveler.travel.trip.entity;
 
+import io.traveler.travel.user.entity.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -17,11 +18,13 @@ public class Invitation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "trips_id")
-    private Long tripsId;
+    @JoinColumn(name = "trips_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Trip trip;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User guest;
 
     @Column(name = "invitation_date")
     private LocalDateTime invitationDate;
@@ -33,9 +36,9 @@ public class Invitation {
     private String status;
 
     @Builder
-    public Invitation(Long tripsId, Long userId, LocalDateTime responseDate) {
-        this.tripsId = tripsId;
-        this.userId = userId;
+    public Invitation(Trip trip, User guest, LocalDateTime responseDate) {
+        this.trip = trip;
+        this.guest = guest;
         this.responseDate = responseDate;
     }
 
