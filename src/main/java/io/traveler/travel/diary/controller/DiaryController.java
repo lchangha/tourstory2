@@ -9,7 +9,6 @@ import io.traveler.travel.diary.dto.response.DiaryResponse;
 import io.traveler.travel.diary.service.DiaryCommentService;
 import io.traveler.travel.diary.service.DiaryReplyService;
 import io.traveler.travel.diary.service.DiaryService;
-import io.traveler.travel.user.dto.AuthenticatedUserDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;

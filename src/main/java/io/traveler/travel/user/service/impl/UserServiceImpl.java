@@ -1,15 +1,13 @@
 package io.traveler.travel.user.service.impl;
 
-import io.traveler.travel.user.dto.AuthenticatedUserDTO;
+import io.traveler.travel.image.ImageUploader;
 import io.traveler.travel.user.dto.input.UpdateUserInput;
 import io.traveler.travel.user.dto.request.CreateUserRequest;
-import io.traveler.travel.user.dto.request.LoginRequest;
 import io.traveler.travel.user.dto.response.PrivateUserResponse;
 import io.traveler.travel.user.dto.response.PublicUserResponse;
 import io.traveler.travel.user.entity.User;
 import io.traveler.travel.user.repository.UserRepository;
 import io.traveler.travel.user.service.UserService;
-import io.traveler.travel.image.ImageUploader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,13 +22,7 @@ public class UserServiceImpl implements UserService {
         this.imageUploader = imageUploader;
     }
 
-    @Override
-    public AuthenticatedUserDTO authenticate(LoginRequest loginRequest) {
-        return userRepository.findByEmailAndPassword(loginRequest.email(), loginRequest.password())
-                .map(AuthenticatedUserDTO::from)
-                .orElseThrow();
 
-    }
 
     @Override
     public void registerUser(CreateUserRequest createUserRequest) {
