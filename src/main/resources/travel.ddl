@@ -176,6 +176,19 @@ CREATE TABLE trips
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS trip_message;
+CREATE TABLE trip_message (
+	id	        INT	        NOT NULL,
+	trips_id	INT	        NOT NULL,
+	user_id	    INT	        NOT NULL,
+	message	    TEXT	    NULL,
+    created_at  DATETIME    DEFAULT CURRENT_TIMESTAMP,
+    updated_at  DATETIME    NULL,
+    deleted_at  DATETIME    NULL,
+    is_deleted  TINYINT(1)  DEFAULT 0,
+);
+
+
 DROP TABLE IF EXISTS message_read;
 CREATE TABLE message_read
 (
