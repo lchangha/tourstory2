@@ -1,4 +1,4 @@
-package io.traveler.travel.chat.entity;
+package io.traveler.travel.trip.entity;
 
 import jakarta.persistence.*;
 
