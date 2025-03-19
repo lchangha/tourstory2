@@ -1,32 +1,29 @@
-package io.traveler.travel.common.entity;
+package io.traveler.travel.global.entity;
 
 import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Builder;
 
 @Entity
-@Table(name = "city")
+@Table(name = "concept")
 @Getter
 @NoArgsConstructor
-public class City {
+public class Concept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "image_path")
-    private String imagePath;
-
     @Builder
-    public City(String name, String description, String imagePath) {
-        this.name = name;
+    public Concept(String title, String description) {
+        this.title = title;
         this.description = description;
-        this.imagePath = imagePath;
     }
 }

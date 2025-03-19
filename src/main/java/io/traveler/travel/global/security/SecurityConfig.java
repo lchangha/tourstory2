@@ -1,4 +1,4 @@
-package io.traveler.travel.common.security;
+package io.traveler.travel.global.security;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;

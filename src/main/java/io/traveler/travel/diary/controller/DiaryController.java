@@ -1,6 +1,6 @@
 package io.traveler.travel.diary.controller;
 
-import io.traveler.travel.common.utils.FileUtil;
+import io.traveler.travel.global.utils.FileUtil;
 import io.traveler.travel.diary.dto.input.*;
 import io.traveler.travel.diary.dto.request.*;
 import io.traveler.travel.diary.dto.response.DiaryCommentResponse;

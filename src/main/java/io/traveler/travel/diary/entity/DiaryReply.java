@@ -1,6 +1,6 @@
 package io.traveler.travel.diary.entity;
 
-import io.traveler.travel.common.entity.TimeTrackedEntity;
+import io.traveler.travel.global.entity.TimeTrackedEntity;
 import io.traveler.travel.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;

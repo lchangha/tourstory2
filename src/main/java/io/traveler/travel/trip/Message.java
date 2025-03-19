@@ -1,6 +1,6 @@
 package io.traveler.travel.trip;
 
-import io.traveler.travel.common.entity.TimeTrackedEntity;
+import io.traveler.travel.global.entity.TimeTrackedEntity;
 import io.traveler.travel.trip.entity.Trip;
 import io.traveler.travel.user.entity.User;
 import jakarta.persistence.Entity;

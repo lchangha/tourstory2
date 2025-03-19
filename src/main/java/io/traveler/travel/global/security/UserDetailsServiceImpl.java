@@ -1,4 +1,4 @@
-package io.traveler.travel.common.security;
+package io.traveler.travel.global.security;
 
 import io.traveler.travel.user.entity.User;
 import io.traveler.travel.user.repository.*;

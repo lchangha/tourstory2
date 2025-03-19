@@ -1,6 +1,6 @@
 package io.traveler.travel.user.entity;
 
-import io.traveler.travel.common.entity.TimeTrackedEntity;
+import io.traveler.travel.global.entity.TimeTrackedEntity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

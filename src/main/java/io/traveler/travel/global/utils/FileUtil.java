@@ -1,4 +1,4 @@
-package io.traveler.travel.common.utils;
+package io.traveler.travel.global.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 

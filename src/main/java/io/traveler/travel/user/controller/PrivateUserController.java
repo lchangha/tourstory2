@@ -1,7 +1,7 @@
 package io.traveler.travel.user.controller;
 
 
-import io.traveler.travel.common.utils.*;
+import io.traveler.travel.global.utils.*;
 import io.traveler.travel.user.dto.input.*;
 import io.traveler.travel.user.dto.request.*;
 import io.traveler.travel.user.dto.response.*;
@@ -10,9 +10,7 @@ import jakarta.servlet.http.*;
 import jakarta.validation.*;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.*;
-import org.springframework.security.core.annotation.*;
 import org.springframework.security.core.context.*;
-import org.springframework.security.core.userdetails.*;
 import org.springframework.security.web.context.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.*;

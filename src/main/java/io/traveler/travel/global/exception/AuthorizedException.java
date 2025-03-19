@@ -1,4 +1,4 @@
-package io.traveler.travel.common.exception;
+package io.traveler.travel.global.exception;
 
 public class AuthorizedException extends RuntimeException {
 
