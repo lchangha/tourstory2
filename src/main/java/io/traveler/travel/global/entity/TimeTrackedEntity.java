@@ -9,10 +9,6 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class TimeTrackedEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 

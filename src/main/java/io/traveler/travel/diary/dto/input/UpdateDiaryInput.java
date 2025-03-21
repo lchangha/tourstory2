@@ -6,17 +6,17 @@ import java.util.List;
 
 public record UpdateDiaryInput(
         Long id,
-        Long posterId,
+        String email,
         String title,
         String content,
         List<byte[]> imageBytesList,
         byte[] thumbnail
 ) {
 
-    public static UpdateDiaryInput of(UpdateDiaryRequest updateDiaryRequest, long diaryId, List<byte[]> imageBytesList, byte[] thumbnail, long posterId) {
+    public static UpdateDiaryInput of(UpdateDiaryRequest updateDiaryRequest, long diaryId, List<byte[]> imageBytesList, byte[] thumbnail, String email) {
         return new UpdateDiaryInput(
                 diaryId,
-                posterId,
+                email,
                 updateDiaryRequest.title(),
                 updateDiaryRequest.content(),
                 imageBytesList,
@@ -37,7 +37,7 @@ public record UpdateDiaryInput(
     public UpdateDiaryInput withId(long diaryId) {
         return new UpdateDiaryInput(
                 diaryId,
-                this.posterId,
+                this.email,
                 this.title,
                 this.content,
                 this.imageBytesList,
@@ -48,7 +48,7 @@ public record UpdateDiaryInput(
     public UpdateDiaryInput withImages(List<byte[]> imageBytesList) {
         return new UpdateDiaryInput(
                 this.id,
-                this.posterId,
+                this.email,
                 this.title,
                 this.content,
                 imageBytesList,

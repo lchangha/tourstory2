@@ -15,6 +15,10 @@ import org.hibernate.annotations.Where;
 @Where(clause = "is_deleted = false")
 public class DiaryReply extends TimeTrackedEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User poster;

@@ -5,14 +5,14 @@ import io.traveler.travel.diary.dto.request.UpdateCommentRequest;
 public record UpdateCommentInput(
         Long diaryId,
         Long commentId,
-        Long posterId,
+        String email,
         String content
 ) {
-    public static UpdateCommentInput of(UpdateCommentRequest updateCommentRequest, long diaryId, long commentId, long posterId) {
+    public static UpdateCommentInput of(UpdateCommentRequest updateCommentRequest, long diaryId, long commentId, String email) {
         return new UpdateCommentInput(
                 diaryId,
                 commentId,
-                posterId,
+                email,
                 updateCommentRequest.content()
         );
     }

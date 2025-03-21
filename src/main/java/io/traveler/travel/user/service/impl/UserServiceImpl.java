@@ -46,15 +46,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public PrivateUserResponse findUserByEmail(String username) {
-        return userRepository.findBynickname(username)
-                .map(PrivateUserResponse::from)
-                .orElseThrow();
-    }
-
-    @Override
-    public PrivateUserResponse findUserById(long id) {
-        return userRepository.findById(id)
+    public PrivateUserResponse findUserById(String email) {
+        return userRepository.findById(email)
                 .map(PrivateUserResponse::from)
                 .orElseThrow();
     }
@@ -62,7 +55,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void modifyUserProfile(UpdateUserInput input) {
-        User user = userRepository.findById(input.id())
+        User user = userRepository.findById(input.email())
                 .orElseThrow();
 
         if (input.email() != null) {
@@ -90,8 +83,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void removeUser(long id) {
-        User user = userRepository.findById(id)
+    public void removeUser(String email) {
+        User user = userRepository.findById(email)
                 .orElseThrow();
         user.delete();
     }

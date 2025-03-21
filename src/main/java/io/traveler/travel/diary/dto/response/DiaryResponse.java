@@ -1,7 +1,6 @@
 package io.traveler.travel.diary.dto.response;
 
 import io.traveler.travel.diary.entity.Diary;
-import io.traveler.travel.diary.entity.DiaryImage;
 import io.traveler.travel.user.dto.response.PublicUserResponse;
 
 import java.time.LocalDateTime;

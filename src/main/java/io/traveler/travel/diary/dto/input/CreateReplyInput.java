@@ -5,7 +5,7 @@ import io.traveler.travel.diary.dto.request.CreateReplyRequest;
 public record CreateReplyInput(
         Long diaryId,
         Long commentId,
-        Long posterId,
+        String email,
         String content
 ) {
     public static CreateReplyInput from(CreateReplyRequest request) {
@@ -17,15 +17,15 @@ public record CreateReplyInput(
         );
     }
 
-    public static CreateReplyInput of(CreateReplyRequest request, long diaryId, long commentId, long posterId) {
-        return new CreateReplyInput(diaryId, commentId, posterId, request.content());
+    public static CreateReplyInput of(CreateReplyRequest request, long diaryId, long commentId, String email) {
+        return new CreateReplyInput(diaryId, commentId, email, request.content());
     }
 
     public CreateReplyInput withDiaryId(long diaryId) {
         return new CreateReplyInput(
                 diaryId,
                 this.commentId,
-                this.posterId,
+                this.email,
                 this.content
         );
     }
@@ -34,16 +34,16 @@ public record CreateReplyInput(
         return new CreateReplyInput(
                 this.diaryId,
                 commentId,
-                this.posterId,
+                this.email,
                 this.content
         );
     }
 
-    public CreateReplyInput withPosterId(long posterId) {
+    public CreateReplyInput withUsername(String email) {
         return new CreateReplyInput(
                 this.diaryId,
                 this.commentId,
-                posterId,
+                email,
                 this.content);
     }
 }

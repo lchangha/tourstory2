@@ -7,7 +7,6 @@ import io.traveler.travel.user.dto.request.*;
 import io.traveler.travel.user.dto.response.*;
 import io.traveler.travel.user.service.*;
 import jakarta.validation.*;
-import org.springframework.security.authentication.*;
 import org.springframework.security.core.annotation.*;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +17,14 @@ import org.springframework.web.multipart.*;
 @RequestMapping("api/user/private")
 public class PrivateUserController {
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
 
-    public PrivateUserController(UserService userService, AuthenticationManager authenticationManager) {
+    public PrivateUserController(UserService userService) {
         this.userService = userService;
-        this.authenticationManager = authenticationManager;
     }
 
     @GetMapping("me")
     public PrivateUserResponse getMe(@AuthenticationPrincipal UserDetails userDetails) {
-        return userService.findUserByEmail(userDetails.getUsername());
+        return userService.findUserById(userDetails.getUsername());
     }
 
     @PutMapping("me")
@@ -46,8 +43,8 @@ public class PrivateUserController {
     }
 
     @DeleteMapping("me")
-    public void deleteUser(@PathVariable long id) {
-        userService.removeUser(id);
+    public void deleteUser(@AuthenticationPrincipal UserDetails user) {
+        userService.removeUser(user.getUsername());
     }
 
 

@@ -5,7 +5,6 @@ import io.traveler.travel.user.dto.request.UpdateUserRequest;
 import java.time.LocalDate;
 
 public record UpdateUserInput(
-        Long id,
         String email,
         String name,
         String nickname,
@@ -16,7 +15,6 @@ public record UpdateUserInput(
 ) {
     public static UpdateUserInput from(UpdateUserRequest request) {
         return new UpdateUserInput(
-                null,
                 request.email(),
                 request.name(),
                 request.nickname(),
@@ -29,7 +27,6 @@ public record UpdateUserInput(
 
     public UpdateUserInput withId(long id) {
         return new UpdateUserInput(
-                id,
                 this.email,
                 this.name,
                 this.nickname,
@@ -43,7 +40,6 @@ public record UpdateUserInput(
 
     public UpdateUserInput withProfileImage(byte[] profileImage) {
         return new UpdateUserInput(
-                this.id,
                 this.email,
                 this.name,
                 this.nickname,

@@ -8,13 +8,12 @@ public interface UserService {
 
     void registerUser(SignUpRequest createUserRequest);
 
-    PrivateUserResponse findUserById(long id);
+    PrivateUserResponse findUserById(String email);
 
     void modifyUserProfile(UpdateUserInput updateUserInput);
 
-    void removeUser(long id);
+    void removeUser(String email);
 
     PublicUserResponse findUserByNickname(String nickname);
 
-    PrivateUserResponse findUserByEmail(String username);
 }

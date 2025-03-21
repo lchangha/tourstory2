@@ -24,20 +24,17 @@ public class SecurityConfig {
     private final String BASE_URL;
     private final String JWT_HEADER;
     private final JpaUserDetailsService userDetailsService;
-    private final JwtTokenProvideFilter jwtTokenProvideFilter;
     private final JwtTokenValidateFilter jwtTokenValidateFilter;
     private final PasswordEncoder passwordEncoder;
 
     public SecurityConfig(@Value("${base-url}") String BASE_URL,
                           @Value("${jwt-header}") String JWT_HEADER,
                           JpaUserDetailsService userDetailsService,
-                          JwtTokenProvideFilter jwtTokenProvideFilter,
                           JwtTokenValidateFilter jwtTokenValidateFilter,
                           PasswordEncoder passwordEncoder) {
         this.BASE_URL = BASE_URL;
         this.JWT_HEADER = JWT_HEADER;
         this.userDetailsService = userDetailsService;
-        this.jwtTokenProvideFilter = jwtTokenProvideFilter;
         this.jwtTokenValidateFilter = jwtTokenValidateFilter;
         this.passwordEncoder = passwordEncoder;
 

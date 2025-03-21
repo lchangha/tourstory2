@@ -9,13 +9,13 @@ import io.traveler.travel.diary.dto.response.DiaryResponse;
 import io.traveler.travel.diary.service.DiaryCommentService;
 import io.traveler.travel.diary.service.DiaryReplyService;
 import io.traveler.travel.diary.service.DiaryService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,10 +46,8 @@ public class DiaryController {
     }
 
     @PostMapping()
-    public void createDiary(@ModelAttribute @Valid CreateDiaryRequest createDiaryRequest, HttpServletRequest request) {
-
-        HttpSession session = request.getSession();
-        AuthenticatedUserDTO user = (AuthenticatedUserDTO) session.getAttribute("AuthenticatedUser");
+    public void createDiary(@ModelAttribute @Valid CreateDiaryRequest createDiaryRequest,
+                            @AuthenticationPrincipal UserDetails user) {
 
         List<byte[]> imageBytesList = createDiaryRequest.images().stream()
                 .map(FileUtil::transferImageToBytes)
@@ -57,24 +55,20 @@ public class DiaryController {
 
         byte[] thumbnail = FileUtil.transferImageToBytes(createDiaryRequest.thumbnail());
 
-        CreateDiaryInput input = CreateDiaryInput.of(createDiaryRequest, imageBytesList, thumbnail, user.id());
+        CreateDiaryInput input = CreateDiaryInput.of(createDiaryRequest, imageBytesList, thumbnail, user.getUsername());
         diaryService.registerDiary(input);
     }
 
     @PutMapping("{diaryId}")
     public void updateDiary(@PathVariable long diaryId,
-                            @ModelAttribute UpdateDiaryRequest updateDiaryRequest ,
-                            HttpServletRequest request) {
-
-        HttpSession session = request.getSession();
-        AuthenticatedUserDTO user = (AuthenticatedUserDTO) session.getAttribute("AuthenticatedUser");
-
+                            @ModelAttribute UpdateDiaryRequest updateDiaryRequest,
+                            @AuthenticationPrincipal UserDetails user) {
         List<byte[]> imageBytesList = updateDiaryRequest.images().stream()
                 .map(FileUtil::transferImageToBytes)
                 .toList();
         byte[] thumbnail = FileUtil.transferImageToBytes(updateDiaryRequest.thumbnail());
 
-        UpdateDiaryInput input = UpdateDiaryInput.of(updateDiaryRequest, diaryId, imageBytesList, thumbnail, user.id());
+        UpdateDiaryInput input = UpdateDiaryInput.of(updateDiaryRequest, diaryId, imageBytesList, thumbnail, user.getUsername());
         diaryService.modifyDiary(input);
     }
 
@@ -102,12 +96,9 @@ public class DiaryController {
     public void updateComment(@PathVariable long diaryId,
                               @PathVariable long commentId,
                               @RequestBody @Valid UpdateCommentRequest updateCommentRequest,
-                              HttpServletRequest request) {
+                              @AuthenticationPrincipal UserDetails user) {
 
-        HttpSession session = request.getSession();
-        AuthenticatedUserDTO user = (AuthenticatedUserDTO) session.getAttribute("AuthenticatedUser");
-
-        UpdateCommentInput input = UpdateCommentInput.of(updateCommentRequest, diaryId, commentId, user.id());
+        UpdateCommentInput input = UpdateCommentInput.of(updateCommentRequest, diaryId, commentId, user.getUsername());
         diaryCommentService.modifyComment(input);
     }
 
@@ -130,12 +121,9 @@ public class DiaryController {
     public void createReply(@PathVariable long diaryId,
                             @PathVariable long commentId,
                             @RequestBody @Valid CreateReplyRequest createReplyRequest,
-                            HttpServletRequest request) {
+                            @AuthenticationPrincipal UserDetails user) {
 
-        HttpSession session = request.getSession();
-        AuthenticatedUserDTO user = (AuthenticatedUserDTO) session.getAttribute("AuthenticatedUser");
-
-        CreateReplyInput input = CreateReplyInput.of(createReplyRequest, diaryId, commentId, user.id());
+        CreateReplyInput input = CreateReplyInput.of(createReplyRequest, diaryId, commentId, user.getUsername());
         diaryReplyService.createReply(input);
     }
 
@@ -144,12 +132,9 @@ public class DiaryController {
                             @PathVariable long commentId,
                             @PathVariable long replyId,
                             @RequestBody @Valid UpdateReplyRequest updateReplyRequest,
-                            HttpServletRequest request) {
+                            @AuthenticationPrincipal UserDetails user) {
 
-        HttpSession session = request.getSession();
-        AuthenticatedUserDTO user = (AuthenticatedUserDTO) session.getAttribute("AuthenticatedUser");
-
-        UpdateReplyInput input = UpdateReplyInput.of(updateReplyRequest, diaryId, commentId, replyId, user.id());
+        UpdateReplyInput input = UpdateReplyInput.of(updateReplyRequest, diaryId, commentId, replyId, user.getUsername());
         diaryReplyService.modifyReply(input);
     }
 

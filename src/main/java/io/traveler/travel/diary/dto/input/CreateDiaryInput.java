@@ -8,12 +8,12 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record CreateDiaryInput(
-        Long tripId,
-        String title,
-        String content,
+        @NotNull Long tripId,
+        @NotBlank String title,
+        @NotBlank String content,
         List<byte[]> imageBytesList,
         byte[] thumbnail,
-        Long poseterId
+        String email
 ) {
     public static CreateDiaryInput from(CreateDiaryRequest createDiaryRequest) {
         return new CreateDiaryInput(
@@ -26,14 +26,14 @@ public record CreateDiaryInput(
         );
     }
 
-    public static CreateDiaryInput of(CreateDiaryRequest createDiaryRequest, List<byte[]> imageBytesList, byte[] thumbnail, long poseterId) {
+    public static CreateDiaryInput of(CreateDiaryRequest createDiaryRequest, List<byte[]> imageBytesList, byte[] thumbnail, String email) {
         return new CreateDiaryInput(
                 createDiaryRequest.tripId(),
                 createDiaryRequest.title(),
                 createDiaryRequest.content(),
                 imageBytesList,
                 thumbnail,
-                poseterId
+                email
         );
     }
 
@@ -44,7 +44,7 @@ public record CreateDiaryInput(
                 this.content,
                 imageBytesList,
                 this.thumbnail,
-        this.poseterId
+                this.email
         );
     }
 
@@ -55,7 +55,7 @@ public record CreateDiaryInput(
                 this.content,
                 this.imageBytesList,
                 thumbnail,
-                this.poseterId
+                this.email
         );
     }
 }

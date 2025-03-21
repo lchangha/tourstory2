@@ -47,7 +47,7 @@ public class DiaryReplyServiceImpl implements DiaryReplyService {
     public void createReply(CreateReplyInput input) {
         diaryCommentRepository.findById(input.commentId())
                 .orElseThrow();
-        User poster = userRepository.getReferenceById(input.posterId());
+        User poster = userRepository.getReferenceById(input.email());
         DiaryReply reply = DiaryReply.builder()
                 .poster(poster)
                 .content(input.content())

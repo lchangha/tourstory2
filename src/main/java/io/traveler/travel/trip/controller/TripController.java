@@ -11,7 +11,6 @@ public class TripController {
 
     public TripController(TripService tripService) {
         this.tripService = tripService;
-        
     }
 
 }

@@ -16,14 +16,15 @@ import lombok.Builder;
 @NoArgsConstructor
 public class User extends TimeTrackedEntity {
 
+    @Id
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "nickname")
     private String nickname;
-
-    @Column(name = "email")
-    private String email;
 
     @Column(name = "password")
     private String password;

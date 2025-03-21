@@ -7,15 +7,15 @@ public record UpdateReplyInput(
         Long commentId,
         Long replyId,
         String content,
-        Long posterId
+        String email
 ) {
-    public static UpdateReplyInput of(UpdateReplyRequest updateReplyRequest, long diaryId, long commentId, long replyId, long posterId) {
+    public static UpdateReplyInput of(UpdateReplyRequest updateReplyRequest, long diaryId, long commentId, long replyId, String email) {
         return new UpdateReplyInput(
                 diaryId,
                 commentId,
                 replyId,
                 updateReplyRequest.content(),
-                posterId
+                email
         );
     }
 }
