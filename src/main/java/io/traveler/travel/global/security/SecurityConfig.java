@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.http.*;
 import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.password.*;
 import org.springframework.security.config.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.config.http.*;
+import org.springframework.security.crypto.factory.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.web.*;
 import org.springframework.security.web.authentication.*;
+import org.springframework.security.web.authentication.password.*;
 import org.springframework.web.cors.*;
 
 import java.util.*;
@@ -20,14 +23,14 @@ public class SecurityConfig {
 
     private final String BASE_URL;
     private final String JWT_HEADER;
-    private final UserDetailsServiceImpl userDetailsService;
+    private final JpaUserDetailsService userDetailsService;
     private final JwtTokenProvideFilter jwtTokenProvideFilter;
     private final JwtTokenValidateFilter jwtTokenValidateFilter;
     private final PasswordEncoder passwordEncoder;
 
     public SecurityConfig(@Value("${base-url}") String BASE_URL,
                           @Value("${jwt-header}") String JWT_HEADER,
-                          UserDetailsServiceImpl userDetailsService,
+                          JpaUserDetailsService userDetailsService,
                           JwtTokenProvideFilter jwtTokenProvideFilter,
                           JwtTokenValidateFilter jwtTokenValidateFilter,
                           PasswordEncoder passwordEncoder) {
@@ -37,6 +40,7 @@ public class SecurityConfig {
         this.jwtTokenProvideFilter = jwtTokenProvideFilter;
         this.jwtTokenValidateFilter = jwtTokenValidateFilter;
         this.passwordEncoder = passwordEncoder;
+
     }
 
 
@@ -50,12 +54,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        //TODO: 프론트에서 로그인요청을 json 으로 줄건지 form-data 로 줄건지에 따라 UsernamePasswordAuthenticationFilter를 커스텀 하거나 살려두던가
         http
                 .cors(Customizer.withDefaults())
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrfConfigurer -> csrfConfigurer.disable())
+                .formLogin(formLoginConfigurer -> formLoginConfigurer.disable())
+                .httpBasic(httpBasicConfigurer -> httpBasicConfigurer.disable())
                 .addFilterBefore(jwtTokenValidateFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterAfter(jwtTokenProvideFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("api/**/private/**").authenticated()
                         .requestMatchers(HttpMethod.POST).authenticated()
@@ -80,5 +84,15 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public CompromisedPasswordChecker compromisedPasswordChecker() {
+        return new HaveIBeenPwnedRestApiPasswordChecker();
     }
 }

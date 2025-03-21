@@ -9,10 +9,10 @@ import org.springframework.stereotype.*;
 import java.util.*;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class JpaUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
-    public UserDetailsServiceImpl(UserRepository userRepository) {
+    public JpaUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

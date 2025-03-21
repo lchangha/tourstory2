@@ -1,15 +1,14 @@
 package io.traveler.travel.user.service.impl;
 
-import io.traveler.travel.image.ImageUploader;
-import io.traveler.travel.user.dto.input.UpdateUserInput;
-import io.traveler.travel.user.dto.request.CreateUserRequest;
-import io.traveler.travel.user.dto.response.PrivateUserResponse;
-import io.traveler.travel.user.dto.response.PublicUserResponse;
-import io.traveler.travel.user.entity.User;
-import io.traveler.travel.user.repository.UserRepository;
-import io.traveler.travel.user.service.UserService;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import io.traveler.travel.image.*;
+import io.traveler.travel.user.dto.input.*;
+import io.traveler.travel.user.dto.request.*;
+import io.traveler.travel.user.dto.response.*;
+import io.traveler.travel.user.entity.*;
+import io.traveler.travel.user.repository.*;
+import io.traveler.travel.user.service.*;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.*;
 
 @Service
 
@@ -25,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void registerUser(CreateUserRequest createUserRequest) {
+    public void registerUser(SignUpRequest createUserRequest) {
         User userRequest = User.builder()
                 .email(createUserRequest.email())
                 .name(createUserRequest.name())
@@ -43,6 +42,13 @@ public class UserServiceImpl implements UserService {
     public PublicUserResponse findUserByNickname(String nickname) {
         return userRepository.findBynickname(nickname)
                 .map(PublicUserResponse::from)
+                .orElseThrow();
+    }
+
+    @Override
+    public PrivateUserResponse findUserByEmail(String username) {
+        return userRepository.findBynickname(username)
+                .map(PrivateUserResponse::from)
                 .orElseThrow();
     }
 

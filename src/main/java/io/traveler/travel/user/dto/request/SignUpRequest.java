@@ -4,7 +4,7 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
-public record CreateUserRequest(
+public record SignUpRequest(
         @NotBlank()
         @Email()
         String email,

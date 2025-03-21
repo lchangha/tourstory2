@@ -1,13 +1,12 @@
 package io.traveler.travel.user.service;
 
-import io.traveler.travel.user.dto.input.UpdateUserInput;
-import io.traveler.travel.user.dto.request.CreateUserRequest;
-import io.traveler.travel.user.dto.response.PrivateUserResponse;
-import io.traveler.travel.user.dto.response.PublicUserResponse;
+import io.traveler.travel.user.dto.input.*;
+import io.traveler.travel.user.dto.request.*;
+import io.traveler.travel.user.dto.response.*;
 
 public interface UserService {
 
-    void registerUser(CreateUserRequest createUserRequest);
+    void registerUser(SignUpRequest createUserRequest);
 
     PrivateUserResponse findUserById(long id);
 
@@ -16,4 +15,6 @@ public interface UserService {
     void removeUser(long id);
 
     PublicUserResponse findUserByNickname(String nickname);
+
+    PrivateUserResponse findUserByEmail(String username);
 }
