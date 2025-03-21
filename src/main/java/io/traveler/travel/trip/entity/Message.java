@@ -1,7 +1,6 @@
-package io.traveler.travel.trip;
+package io.traveler.travel.trip.entity;
 
 import io.traveler.travel.global.entity.TimeTrackedEntity;
-import io.traveler.travel.trip.entity.Trip;
 import io.traveler.travel.user.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
