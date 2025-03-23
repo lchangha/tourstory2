@@ -107,10 +107,11 @@ CREATE TABLE trips_concept
 DROP TABLE IF EXISTS chat_participants;
 CREATE TABLE chat_participants
 (
-    id         INT PRIMARY KEY AUTO_INCREMENT,
-    trips_id   INT          NOT NULL,
-    user_id    VARCHAR(100) NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id                   INT PRIMARY KEY AUTO_INCREMENT,
+    trips_id             INT          NOT NULL,
+    user_id              VARCHAR(100) NOT NULL,
+    last_read_message_id INT          NULL,
+    created_at           DATETIME DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (trips_id, user_id)
 );
 
@@ -189,16 +190,6 @@ CREATE TABLE trip_message
     is_deleted TINYINT(1) DEFAULT 0
 );
 
-
-DROP TABLE IF EXISTS message_read;
-CREATE TABLE message_read
-(
-    id              INT PRIMARY KEY AUTO_INCREMENT,
-    trip_message_id INT          NOT NULL,
-    user_id         VARCHAR(100) NOT NULL,
-    read_at         DATETIME DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (trip_message_id, user_id)
-);
 DROP TABLE IF EXISTS city;
 CREATE TABLE city
 (
