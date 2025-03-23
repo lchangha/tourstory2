@@ -12,8 +12,8 @@ DROP TABLE IF EXISTS diary_like;
 CREATE TABLE diary_like
 (
     id         INT PRIMARY KEY AUTO_INCREMENT,
-    user_id    INT,
-    diary_id   INT,
+    user_id    VARCHAR(100) NOT NULL,
+    diary_id   INT          NOT NULL,
     UNIQUE (user_id, diary_id),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -22,8 +22,8 @@ DROP TABLE IF EXISTS diary_comment_like;
 CREATE TABLE diary_comment_like
 (
     id               INT PRIMARY KEY AUTO_INCREMENT,
-    user_id          INT,
-    diary_comment_id INT,
+    user_id          VARCHAR(100) NOT NULL,
+    diary_comment_id INT          NOT NULL,
     UNIQUE (user_id, diary_comment_id),
     created_at       DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -32,8 +32,8 @@ DROP TABLE IF EXISTS diary_reply_like;
 CREATE TABLE diary_reply_like
 (
     id             INT PRIMARY KEY AUTO_INCREMENT,
-    user_id        INT,
-    diary_reply_id INT,
+    user_id        VARCHAR(100) NOT NULL,
+    diary_reply_id INT          NOT NULL,
     UNIQUE (user_id, diary_reply_id),
     created_at     DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -42,12 +42,12 @@ DROP TABLE IF EXISTS diary_reply;
 CREATE TABLE diary_reply
 (
     id               INT PRIMARY KEY AUTO_INCREMENT,
-    diary_comment_id INT      NOT NULL,
-    user_id          INT      NOT NULL,
-    content          TEXT     NULL,
+    diary_comment_id INT          NOT NULL,
+    user_id          VARCHAR(100) NOT NULL,
+    content          TEXT         NULL,
     created_at       DATETIME   DEFAULT CURRENT_TIMESTAMP,
-    updated_at       DATETIME NULL,
-    deleted_at       DATETIME NULL,
+    updated_at       DATETIME     NULL,
+    deleted_at       DATETIME     NULL,
     is_deleted       TINYINT(1) DEFAULT 0
 );
 
@@ -58,12 +58,12 @@ DROP TABLE IF EXISTS diary_comment;
 CREATE TABLE diary_comment
 (
     id         INT PRIMARY KEY AUTO_INCREMENT,
-    diary_id   INT      NOT NULL,
-    user_id    INT      NOT NULL,
-    content    TEXT     NULL,
+    diary_id   INT          NOT NULL,
+    user_id    VARCHAR(100) NOT NULL,
+    content    TEXT         NULL,
     created_at DATETIME   DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME NULL,
-    deleted_at DATETIME NULL,
+    updated_at DATETIME     NULL,
+    deleted_at DATETIME     NULL,
     is_deleted TINYINT(1) DEFAULT 0
 );
 
@@ -74,7 +74,7 @@ DROP TABLE IF EXISTS diaries;
 CREATE TABLE diaries
 (
     id            INT PRIMARY KEY AUTO_INCREMENT,
-    user_id       INT          NOT NULL,
+    user_id       VARCHAR(100) NOT NULL,
     trips_id      INT          NOT NULL,
     title         VARCHAR(100) NULL,
     content       TEXT         NULL,
@@ -108,8 +108,8 @@ DROP TABLE IF EXISTS chat_participants;
 CREATE TABLE chat_participants
 (
     id         INT PRIMARY KEY AUTO_INCREMENT,
-    trips_id   INT NOT NULL,
-    user_id    INT NOT NULL,
+    trips_id   INT          NOT NULL,
+    user_id    VARCHAR(100) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (trips_id, user_id)
 );
@@ -118,10 +118,10 @@ DROP TABLE IF EXISTS invitations;
 CREATE TABLE invitations
 (
     id              INT PRIMARY KEY AUTO_INCREMENT,
-    trips_id        INT      NOT NULL,
-    user_id         INT      NOT NULL,
+    trips_id        INT          NOT NULL,
+    user_id         VARCHAR(100) NOT NULL,
     invitation_date DATETIME     DEFAULT CURRENT_TIMESTAMP,
-    response_date   DATETIME NULL,
+    response_date   DATETIME     NULL,
     status          VARCHAR(255) DEFAULT 'invited'
 );
 
@@ -140,7 +140,7 @@ CREATE TABLE plan_location
 );
 
 CREATE INDEX idx_plan_location_plans ON plan_location (plans_id);
-
+# TODO: 애플리케이션 로직으로 변경
 DELIMITER //
 
 CREATE TRIGGER before_insert_plan_detail
@@ -169,7 +169,7 @@ DROP TABLE IF EXISTS trips;
 CREATE TABLE trips
 (
     id         INT PRIMARY KEY AUTO_INCREMENT,
-    user_id    INT          NOT NULL,
+    user_id    VARCHAR(100) NOT NULL,
     start_date DATE         NULL,
     end_date   DATE         NULL,
     trip_name  VARCHAR(255) NULL,
@@ -177,15 +177,16 @@ CREATE TABLE trips
 );
 
 DROP TABLE IF EXISTS trip_message;
-CREATE TABLE trip_message (
-	id	        INT	        NOT NULL,
-	trips_id	INT	        NOT NULL,
-	user_id	    INT	        NOT NULL,
-	message	    TEXT	    NULL,
-    created_at  DATETIME    DEFAULT CURRENT_TIMESTAMP,
-    updated_at  DATETIME    NULL,
-    deleted_at  DATETIME    NULL,
-    is_deleted  TINYINT(1)  DEFAULT 0,
+CREATE TABLE trip_message
+(
+    id         INT PRIMARY KEY AUTO_INCREMENT,
+    trips_id   INT          NOT NULL,
+    user_id    VARCHAR(100) NOT NULL,
+    message    TEXT         NULL,
+    created_at DATETIME   DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME     NULL,
+    deleted_at DATETIME     NULL,
+    is_deleted TINYINT(1) DEFAULT 0
 );
 
 
@@ -193,41 +194,40 @@ DROP TABLE IF EXISTS message_read;
 CREATE TABLE message_read
 (
     id              INT PRIMARY KEY AUTO_INCREMENT,
-    trip_message_id INT NOT NULL,
-    user_id         INT NOT NULL,
+    trip_message_id INT          NOT NULL,
+    user_id         VARCHAR(100) NOT NULL,
     read_at         DATETIME DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (trip_message_id, user_id)
 );
-
 DROP TABLE IF EXISTS city;
 CREATE TABLE city
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    name        VARCHAR(255),
-    description VARCHAR(255),
-    image_path  VARCHAR(255)
+    id          INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    name        VARCHAR(255)                   NOT NULL,
+    description VARCHAR(255)                   NOT NULL,
+    image_path  VARCHAR(255)                   NOT NULL
 );
 
 DROP TABLE IF EXISTS concept;
 CREATE TABLE concept
 (
-    id          INT PRIMARY KEY AUTO_INCREMENT,
-    title       VARCHAR(255) NULL,
-    description VARCHAR(255) NULL
+    id          INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    title       VARCHAR(255)                   NOT NULL,
+    description VARCHAR(255)                   NOT NULL
 );
 
 DROP TABLE IF EXISTS notification;
 CREATE TABLE notification
 (
-    id              INT PRIMARY KEY AUTO_INCREMENT,
-    receiver_id     INT,
-    trigger_user_id INT,
-    target_id       INT,
-    `type`          VARCHAR(50),
-    content         TEXT,
-    url             VARCHAR(255),
-    un_read         TINYINT(1) DEFAULT 0,
-    created_at      DATETIME   DEFAULT CURRENT_TIMESTAMP
+    id              INT PRIMARY KEY AUTO_INCREMENT       NOT NULL,
+    receiver_id     VARCHAR(100)                         NOT NULL,
+    trigger_user_id VARCHAR(100)                         NOT NULL,
+    target_id       INT                                  NOT NULL,
+    `type`          VARCHAR(50)                          NOT NULL,
+    content         TEXT                                 NOT NULL,
+    url             VARCHAR(255)                         NULL,
+    un_read         TINYINT(1) DEFAULT 0                 NOT NULL,
+    created_at      DATETIME   DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 CREATE INDEX idx_notification_receiver ON notification (receiver_id);
@@ -235,17 +235,17 @@ CREATE INDEX idx_notification_receiver ON notification (receiver_id);
 DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
-    email       VARCHAR(100) PRIMARY KEY,
-    name        VARCHAR(50),
-    nickname    VARCHAR(50),
-    password    VARCHAR(255),
-    birth       DATE,
-    gender      VARCHAR(10),
-    profile_url VARCHAR(255) DEFAULT '/profile.jpg',
-    phone       VARCHAR(20),
-    created_at  DATETIME     DEFAULT CURRENT_TIMESTAMP,
-    updated_at  DATETIME NULL,
-    deleted_at  DATETIME NULL,
-    is_deleted  TINYINT(1)   DEFAULT 0,
-    UNIQUE (email, nickname)
+    email       VARCHAR(100) PRIMARY KEY               NOT NULL,
+    name        VARCHAR(50)                            NOT NULL,
+    nickname    VARCHAR(50)                            NOT NULL,
+    password    VARCHAR(255)                           NOT NULL,
+    birth       DATE                                   NULL,
+    gender      VARCHAR(10)                            NULL,
+    profile_url VARCHAR(255) DEFAULT '/profile.jpg'    NOT NULL,
+    phone       VARCHAR(20)                            NULL,
+    created_at  DATETIME     DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at  DATETIME                               NULL,
+    deleted_at  DATETIME                               NULL,
+    is_deleted  TINYINT(1)   DEFAULT 0                 NOT NULL,
+    UNIQUE (nickname)
 );
