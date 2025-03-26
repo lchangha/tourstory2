@@ -8,7 +8,7 @@ public record UpdateTripRequest(
         Optional<String>tripName,
         Optional<LocalDate> startDate,
         Optional<LocalDate> endDate,
-        Optional<int[]> cityIds,
-        Optional<int[]> conceptIds
+        Optional<List<Long>> cityIds,
+        Optional<List<Long>> conceptIds
 ) {
 }

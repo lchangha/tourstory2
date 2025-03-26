@@ -1,5 +1,7 @@
 package io.traveler.travel.trip.controller;
 
+import io.traveler.travel.trip.dto.input.CreateTripInput;
+import io.traveler.travel.trip.dto.input.UpdateTripInput;
 import io.traveler.travel.trip.dto.request.*;
 import io.traveler.travel.trip.dto.response.*;
 import io.traveler.travel.trip.service.*;
@@ -38,13 +40,15 @@ public class PrivateTripController {
     @PostMapping()
     public void createTrip(@AuthenticationPrincipal UserDetails user,
                            @RequestBody @Valid CreateTripRequest createTripRequest) {
-        tripService.registerTrip(createTripRequest);
+        CreateTripInput input = CreateTripInput.of(user, createTripRequest);
+        tripService.registerTrip(input);
     }
 
     @PutMapping("{tripId}")
     public void updateTrip(@AuthenticationPrincipal UserDetails user,
                            @RequestBody UpdateTripRequest updateTripRequest) {
-        tripService.modifyTrip(updateTripRequest);
+        UpdateTripInput input = UpdateTripInput.of(user, updateTripRequest);
+        tripService.modifyTrip(input);
     }
 
     @DeleteMapping("{tripId}")

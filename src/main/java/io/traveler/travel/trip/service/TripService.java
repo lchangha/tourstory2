@@ -2,7 +2,6 @@ package io.traveler.travel.trip.service;
 
 
 import io.traveler.travel.trip.dto.input.*;
-import io.traveler.travel.trip.dto.request.*;
 import io.traveler.travel.trip.dto.response.*;
 import org.springframework.data.domain.*;
 

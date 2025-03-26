@@ -1,6 +1,5 @@
 package io.traveler.travel.image;
 
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

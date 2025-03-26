@@ -58,12 +58,6 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-
-tasks.withType(JavaCompile).configureEach {
-    options.compilerArgs += ["-Aquerydsl.jpa.packages=com.example"]  // 엔티티 패키지 지정
-}
-
-
 dependencyManagement {
     imports {
         mavenBom "org.springframework.ai:spring-ai-bom:$springAiVersion"

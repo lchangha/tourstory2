@@ -12,7 +12,11 @@ import io.traveler.travel.trip.service.ChatService;
 @Service
 public class ChatServiceImpl implements ChatService {
     //TODO: QueryDsl 고려
-    private final MessageRepository;
+    private final MessageRepository messageRepository;
+
+    public ChatServiceImpl(MessageRepository messageRepository) {
+        this.messageRepository = messageRepository;
+    }
 
 
     @Override
