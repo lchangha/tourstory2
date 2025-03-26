@@ -30,7 +30,7 @@ public class PrivateUserController {
     @PutMapping("me")
     public void updateUser(@AuthenticationPrincipal UserDetails userDetails,
                            @ModelAttribute @Valid UpdateUserRequest updateUserRequest) {
-        if (userDetails.getUsername() == updateUserRequest.email()) {
+        if (userDetails.getUsername().equals(updateUserRequest.email())) {
             MultipartFile profileImage = updateUserRequest.profileImage();
             byte[] imageBytes = FileUtil.transferImageToBytes(profileImage);
 

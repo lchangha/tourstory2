@@ -1,24 +1,23 @@
 package io.traveler.travel.trip.entity;
 
-import io.traveler.travel.user.entity.User;
+import io.traveler.travel.global.entity.*;
+import io.traveler.travel.user.entity.*;
 import jakarta.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Builder;
+import lombok.*;
+
+import java.time.*;
 
 @Entity
 @Table(name = "trips")
 @Getter
 @NoArgsConstructor
-public class Trip {
+public class Trip  extends TimeTrackedEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private User tripOwner;
+    private User user;
 
     @Column(name = "start_date")
     private LocalDate startDate;
@@ -29,19 +28,12 @@ public class Trip {
     @Column(name = "trip_name")
     private String tripName;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
     @Builder
-    public Trip(User tripOwner, LocalDate startDate, LocalDate endDate, String tripName) {
-        this.tripOwner = tripOwner;
+    public Trip(User user, LocalDate startDate, LocalDate endDate, String tripName) {
+        this.user = user;
         this.startDate = startDate;
         this.endDate = endDate;
         this.tripName = tripName;
     }
 
-    @PrePersist
-    private void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
 }

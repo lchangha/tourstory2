@@ -8,12 +8,13 @@ import org.springframework.security.authentication.password.*;
 import org.springframework.security.config.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.*;
+import org.springframework.security.config.annotation.web.configurers.*;
 import org.springframework.security.config.http.*;
 import org.springframework.security.crypto.factory.*;
 import org.springframework.security.crypto.password.*;
 import org.springframework.security.web.*;
-import org.springframework.security.web.authentication.*;
 import org.springframework.security.web.authentication.password.*;
+import org.springframework.security.web.authentication.www.*;
 import org.springframework.web.cors.*;
 
 import java.util.*;
@@ -53,16 +54,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults())
-                .csrf(csrfConfigurer -> csrfConfigurer.disable())
-                .formLogin(formLoginConfigurer -> formLoginConfigurer.disable())
-                .httpBasic(httpBasicConfigurer -> httpBasicConfigurer.disable())
-                .addFilterBefore(jwtTokenValidateFilter, UsernamePasswordAuthenticationFilter.class)
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .addFilterBefore(jwtTokenValidateFilter, BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("api/**/private/**").authenticated()
                         .requestMatchers(HttpMethod.POST).authenticated()
                         .requestMatchers(HttpMethod.PUT).authenticated()
                         .requestMatchers(HttpMethod.DELETE).authenticated()
-                        .anyRequest().permitAll()
+                        .requestMatchers("api/**/public/**").permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

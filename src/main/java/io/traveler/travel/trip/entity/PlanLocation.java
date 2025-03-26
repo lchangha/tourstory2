@@ -1,13 +1,10 @@
 package io.traveler.travel.trip.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Builder;
+import java.math.*;
+import java.time.*;
 
 @Entity
 @Table(name = "plan_location")
@@ -17,9 +14,9 @@ public class PlanLocation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "plans_id")
+    @JoinColumn(name = "trips_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private TripPlan tripPlan;
+    private Trip trip;
 
     @Column(name = "place_name")
     private String placeName;
@@ -43,8 +40,8 @@ public class PlanLocation {
     private LocalDateTime createdAt;
 
     @Builder
-    public PlanLocation(TripPlan tripPlan, String placeName, String addressName, String categoryName, BigDecimal y, BigDecimal x) {
-        this.tripPlan = tripPlan;
+    public PlanLocation(Trip trip, String placeName, String addressName, String categoryName, BigDecimal y, BigDecimal x) {
+        this.trip = trip;
         this.placeName = placeName;
         this.addressName = addressName;
         this.categoryName = categoryName;

@@ -130,7 +130,7 @@ DROP TABLE IF EXISTS plan_location;
 CREATE TABLE plan_location
 (
     id            INT PRIMARY KEY AUTO_INCREMENT,
-    plans_id      INT             NOT NULL,
+    trips_id      INT             NOT NULL,
     place_name    VARCHAR(255)    NULL,
     address_name  VARCHAR(255)    NULL,
     category_name VARCHAR(255)    NULL,
@@ -139,32 +139,6 @@ CREATE TABLE plan_location
     order_number  INT             NULL,
     created_at    DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
-CREATE INDEX idx_plan_location_plans ON plan_location (plans_id);
-# TODO: 애플리케이션 로직으로 변경
-DELIMITER //
-
-CREATE TRIGGER before_insert_plan_detail
-    BEFORE INSERT
-    ON plan_location
-    FOR EACH ROW
-BEGIN
-    SET NEW.order_number = (SELECT COALESCE(MAX(order_number), 0) + 1
-                            FROM plan_location
-                            WHERE plans_id = NEW.plans_id);
-END//
-
-DELIMITER ;
-
-DROP TABLE IF EXISTS trip_plans;
-CREATE TABLE trip_plans
-(
-    id            INT PRIMARY KEY AUTO_INCREMENT,
-    trips_id      INT  NOT NULL,
-    schedule_date DATE NULL
-);
-
-CREATE INDEX idx_trip_plans_trips ON trip_plans (trips_id);
 
 DROP TABLE IF EXISTS trips;
 CREATE TABLE trips

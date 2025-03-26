@@ -36,7 +36,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     public Slice<DiaryResponse> getDiaries(Pageable pageable) {
-        Slice<Diary> diarySlice = diaryRepository.findByAll(pageable);
+        Slice<Diary> diarySlice = diaryRepository.findAll(pageable);
         return diarySlice.map(DiaryResponse::from);
     }
 
